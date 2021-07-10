@@ -12,6 +12,7 @@
     "concluido": true,
     "descricao": "Fazer tarefa s6",
     "autor": "Paula"
+
   },
   {
     "id": "3",
@@ -19,5 +20,6 @@
     "concluido": true,
     "descricao": "Lavar banheiro",
     "autor": "Let"
+
   }
 ]

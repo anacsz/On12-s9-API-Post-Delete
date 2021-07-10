@@ -1,4 +1,8 @@
+const { response } = require("express");
+const { request } = require("../app");
 const tarefasJson = require("../models/tarefas.json");
+
+
 
 const getAll = (request, response) => {
     response.status(200).send(tarefasJson)
@@ -12,16 +16,39 @@ const getById = (request, response) => {
 }
 
 const criarTarefa = (request, response) => {
-    // pegar a tarefa enviada pelo client
-    // console.log(request)
-    const descricaoRequerida = request.body.descricao;
-    const autorRequerido = request.body.autor;
 
-    // juntar o que foi enviado na request com os dados automáticos (id, data, concluido)
+    const descricaoRequerido = request.body.descricao
+    const autorRequerido = request.body.autor
+    
     const novaTarefa = {
         id: "12345",
         data: new Date(),
         concluido: false,
+
+        descricao: descricaoRequerido,
+        autor: autorRequerido
+
+    };
+    tarefasJson.push(novaTarefa);
+
+    response.status(200).send(novaTarefa);
+};
+
+const apagarTarefa = (request, response) =>{
+
+    const idRequerido =  request.params.id;
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idReqerido);
+
+    const indice = tarefasJson.indexOf(tarefaFiltrada);
+
+    tarefasJson.splice(indice,1);
+    response.status(200).send([
+        {
+            "message": "tarefa deletada com sucesso!"
+        },
+        tarefasJson
+    ])
+
         descricao: descricaoRequerida,
         autor: autorRequerido
     };
@@ -63,6 +90,6 @@ const deletarTarefa = (request, response) => {
 module.exports = {
     getAll,
     getById,
-    criarTarefa,
-    deletarTarefa
+    criarTarefa
+    
 }
