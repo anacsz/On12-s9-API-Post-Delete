@@ -5,4 +5,8 @@ const controller = require("../controllers/toDoControllers")
 router.get("/", controller.getAll)
 router.get("/:id", controller.getById)
 
+router.post("/cadastrar", controller.criarTarefa);
+
+router.delete("/:id", controller.apagarTarefa)
+
 module.exports = router
