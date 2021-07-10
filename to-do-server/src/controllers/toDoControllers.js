@@ -16,6 +16,7 @@ const getById = (request, response) => {
 }
 
 const criarTarefa = (request, response) => {
+
     const descricaoRequerido = request.body.descricao
     const autorRequerido = request.body.autor
     
@@ -23,6 +24,7 @@ const criarTarefa = (request, response) => {
         id: "12345",
         data: new Date(),
         concluido: false,
+
         descricao: descricaoRequerido,
         autor: autorRequerido
 
@@ -47,10 +49,47 @@ const apagarTarefa = (request, response) =>{
         tarefasJson
     ])
 
+        descricao: descricaoRequerida,
+        autor: autorRequerido
+    };
+
+    // empurrando para o json a nova tarefa criada
+    tarefasJson.push(novaTarefa);
+
+    // enviar resposta
+    response.status(200).send(novaTarefa);
+};
+
+const deletarTarefa = (request, response) => {
+    // ver qual tarefa a requisição solicitou apagar
+    // pegar id pelo parametro
+    const idRequerido = request.params.id;
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido);
+
+    // filtrar o json para achar a tarefa que foi requisita pra ser apagada
+    const indice = tarefasJson.indexOf(tarefaFiltrada);
+    console.log(indice);
+
+    // apagar o item da lista
+    // splice(indice, quantos itens a ser removidos, o que vai ser acrescentado)
+    tarefasJson.splice(indice, 1);
+
+    // enviar uma resposta
+
+    response.status(200).send(
+        [
+            {
+                "message": "Tarefa deletada com sucesso!"
+            },
+            tarefasJson
+        ]
+    )
+
 }
 
 module.exports = {
     getAll,
     getById,
     criarTarefa
+    
 }
